@@ -1,0 +1,18 @@
+Workspaces in a Task
+A Task utilizes a workspace as a designated location for input file reading, output file writing, and file operations within a pipeline. It offers a dedicated area within the container where the task executes, facilitating efficient data management and sharing between tasks in the pipeline.
+
+To maintain best practices, it is recommended to use a single writable workspace in Tasks. The provided example showcases writing a message to a file, which is mounted to the task using the workspaces field within the task's specification.
+
+#Example from Tekton Documentation:https:‌//tekton.dev/docs/pipelines/tasks/#specifying-workspaces
+spec:
+  steps:
+    - name: write-message
+      image: ubuntu
+      script: |
+        #!/usr/bin/env bash
+        set -xe
+        echo Hello! > $(workspaces.messages.path)/message
+  workspaces:
+    - name: messages
+      description: Location to save the generated message
+      mountPath: /custom/path/relative/to/root

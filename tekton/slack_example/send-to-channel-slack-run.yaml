@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: run-send-to-channel-slack
+spec:
+  serviceAccountName: <Enter your Service Account Name>
+  params:
+    - name: token-secret
+      value: token-secret
+    - name: channel
+      value: #CHANNEL ID
+    - name: message
+      value: "Hello from Tekton!"
+  taskRef:
+    name: send-to-channel-slack

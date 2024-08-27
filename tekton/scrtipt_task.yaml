@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: print-message
+spec:
+  steps:
+    - name: print-welcome-message
+      image: ubuntu # Ubuntu image contains bash
+      script: |
+        #!/usr/bin/env bash
+        echo "Hello from Bash!"

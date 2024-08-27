@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: <Enter Service Account Name>
+  namespace: tekton-pipelines
+secrets:
+  - name: basic-user-pass

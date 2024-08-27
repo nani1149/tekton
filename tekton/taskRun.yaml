@@ -1,0 +1,25 @@
+Usage
+There are two ways to specify the corresponding Task in order to execute a TaskRun. One of these ways is by providing the name of the Task in the taskRef field, as shown below:
+
+spec:
+  taskRef:
+    name: read-task
+
+The other is by passing the whole task in the taskSpec field as shown below:
+
+spec:
+  taskSpec:
+    steps:
+      - name: welcome
+        image: ubuntu
+        script:|
+              echo “Welcome to tekton CI/CD”
+      - name: display-readable-timestamp
+        image: bash:latest
+        script: |
+          #!/usr/bin/env bash
+          date | tee $(results.readable-timestamp.path)
+
+
+
+For information on using Workspaces in a TaskRun, see this example YAML file.

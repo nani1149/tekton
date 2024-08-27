@@ -1,0 +1,6 @@
+steps:
+  - image: docker.io/library/golang:latest
+    name: ignore-unit-test-failure
+    onError: continue
+    script: |
+      go test .

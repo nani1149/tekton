@@ -1,0 +1,48 @@
+Results
+The Result element captures the output of a task or step in a pipeline run, making it available for use in subsequent pipeline steps. An example of this can be observed when a push is made to a Git repository during the initial step, and the same repository needs to be cloned in the following step. In this case, the result element can be utilized to retrieve the Git commit ID.
+
+To employ the result element, it must first be declared above the params in the Task spec. Subsequently, it can be called upon in the relevant step whenever required, as shown in the example below.
+
+# Example from Tekton Documentation: https:‌//tekton.dev/docs/pipelines/tasks/#emitting-results
+apiVersion: tekton.dev/v1 # or tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: display-timestamp
+  annotations:
+    description: |
+      A task that displays the current time.
+spec:
+  results:
+    - name: unix-timestamp
+      description: Current timestamp in Unix format.
+    - name: readable-timestamp
+      description: Current timestamp in a comprehensible format.
+  steps:
+    - name: display-unix-timestamp
+      image: bash:latest
+      script: |
+        #!/usr/bin/env bash
+        date +%s | tee $(results.unix-timestamp.path)
+    - name: display-readable-timestamp
+      image: bash:latest
+      script: |
+        #!/usr/bin/env bash
+        date | tee $(results.readable-timestamp.path)
+
+
+
+In the above example, a Tekton task named display-timestamp is defined to showcase how to emit results after execution. The task has two results defined: unix-timestamp and readable-timestamp, which are expected to hold the current timestamp in Unix format and a human-readable format, respectively.
+
+display-unix-timestamp: This step utilizes the bash image to execute a script that gets the current Unix timestamp using the date +%s command.
+display-readable-timestamp: Similar to the first step but retrieves a human-readable timestamp using the date command.
+The result unix-timestamp stores the current timestamp in Unix format. This can be used by other tasks or when evaluating the success of the task.
+The result readable-timestamp holds the timestamp in a format that is easy to read and understand. Like the Unix timestamp, this can also be referred to by subsequent tasks or for evaluation purposes.
+The output would look like following:
+
+For display-unix-timestamp
+
+1682960287
+
+For display-readable-timestamp
+
+Mon May 1 16:58:07 UTC 2023

@@ -1,0 +1,9 @@
+# Example from Tekton Documentation: https:‌//tekton.dev/docs/pipelines/tasks/#specifying-a-timeout
+steps:
+  - name: sleep-then-abort
+    image: ubuntu
+    script: |
+      #!/usr/bin/env bash
+      echo "Please rest for 60 seconds!"
+      sleep 60
+    timeout: 5s
